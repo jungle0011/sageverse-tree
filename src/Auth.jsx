@@ -1,5 +1,5 @@
 // src/Auth.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
 export default function Auth({ onLogin }) {
@@ -9,6 +9,23 @@ export default function Auth({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [justSignedUp, setJustSignedUp] = useState(false);
+
+  useEffect(() => {
+    // Inject pulse animation and neon glow CSS into the page head
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.85; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .glow {
+        box-shadow: 0 0 12px #00FFC6, 0 0 24px #00FFC6, 0 0 36px #00FFC6;
+        border-radius: 50%;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
 
   const handleAuth = async () => {
     setLoading(true);
@@ -52,6 +69,20 @@ export default function Auth({ onLogin }) {
           textAlign: "center",
         }}
       >
+        {/* Logo with pulse animation and neon glow */}
+        <img
+          src="/your-logo.png"
+          alt="Sageverse Logo"
+          className="glow"
+          style={{
+            width: 80,
+            height: 80,
+            objectFit: "contain",
+            margin: "0 auto 16px",
+            animation: "pulse 2.5s infinite ease-in-out",
+          }}
+        />
+
         {/* Project Name */}
         <h1
           style={{
@@ -102,7 +133,7 @@ export default function Auth({ onLogin }) {
                 borderRadius: 6,
                 border: "1px solid #ccc",
                 fontSize: 16,
-                boxSizing: "border-box", // Ensure padding doesn't break layout
+                boxSizing: "border-box",
                 transition: "border-color 0.2s ease",
               }}
             />
@@ -171,9 +202,7 @@ export default function Auth({ onLogin }) {
             setIsLogin(!isLogin);
           }}
         >
-          {isLogin
-            ? "Don't have an account? Sign Up"
-            : "Already have an account? Login"}
+          {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login"}
         </p>
       </div>
     </div>
